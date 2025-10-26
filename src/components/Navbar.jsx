@@ -31,7 +31,6 @@ const Navbar = () => {
             Portfolio
           </motion.div>
 
-          {/* Desktop Menu */}
           <div className="hidden md:flex space-x-8">
             {navLinks.map((link, index) => (
               <motion.a
@@ -47,7 +46,6 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* Mobile Menu Button */}
           <div className="md:hidden">
             <button onClick={() => setIsOpen(!isOpen)}>
               {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -55,7 +53,6 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Mobile Menu */}
         {isOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}

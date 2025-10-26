@@ -1,7 +1,19 @@
 import { motion } from 'framer-motion';
-import { Github, Linkedin, Mail, ArrowDown } from 'lucide-react';
+import { Github, Linkedin, Mail, ArrowDown, Globe, Twitter } from 'lucide-react';
+import { usePortfolio } from '../context/PortfolioContext';
 
 const Hero = () => {
+  const { portfolioData } = usePortfolio();
+  const personal = portfolioData?.personal || {};
+  const social = portfolioData?.social || {};
+
+  const socialIcons = {
+    github: Github,
+    linkedin: Linkedin,
+    twitter: Twitter,
+    website: Globe,
+  };
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -26,7 +38,6 @@ const Hero = () => {
 
   return (
     <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16">
-      {/* Animated Background */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
           animate={{
@@ -69,7 +80,7 @@ const Hero = () => {
           className="text-5xl md:text-7xl font-bold mb-6"
         >
           <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
-            Your Name
+            {personal.fullName || 'Your Name'}
           </span>
         </motion.h1>
 
@@ -77,46 +88,44 @@ const Hero = () => {
           variants={itemVariants}
           className="text-3xl md:text-4xl font-semibold text-gray-300 mb-8"
         >
-          Full Stack Developer & DevOps Engineer
+          {personal.title || 'Full Stack Developer & DevOps Engineer'}
         </motion.h2>
 
         <motion.p
           variants={itemVariants}
           className="text-xl text-gray-400 max-w-2xl mx-auto mb-12"
         >
-          Passionate about building scalable applications with modern technologies
-          and automated CI/CD pipelines
+          {personal.about || 'Passionate about building scalable applications'}
         </motion.p>
 
         <motion.div variants={itemVariants} className="flex justify-center space-x-6 mb-12">
-          <motion.a
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            href="https://github.com/yourusername"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-3 bg-gray-800 rounded-full hover:bg-primary transition-colors"
-          >
-            <Github size={24} />
-          </motion.a>
-          <motion.a
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            href="https://linkedin.com/in/yourusername"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-3 bg-gray-800 rounded-full hover:bg-primary transition-colors"
-          >
-            <Linkedin size={24} />
-          </motion.a>
-          <motion.a
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            href="mailto:your.email@example.com"
-            className="p-3 bg-gray-800 rounded-full hover:bg-primary transition-colors"
-          >
-            <Mail size={24} />
-          </motion.a>
+          {Object.entries(social).map(([platform, url]) => {
+            if (!url) return null;
+            const Icon = socialIcons[platform] || Mail;
+            return (
+              <motion.a
+                key={platform}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 bg-gray-800 rounded-full hover:bg-primary transition-colors"
+              >
+                <Icon size={24} />
+              </motion.a>
+            );
+          })}
+          {personal.email && (
+            <motion.a
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              href={`mailto:${personal.email}`}
+              className="p-3 bg-gray-800 rounded-full hover:bg-primary transition-colors"
+            >
+              <Mail size={24} />
+            </motion.a>
+          )}
         </motion.div>
 
         <motion.div variants={itemVariants} className="flex justify-center space-x-4">

@@ -1,12 +1,16 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Code, Rocket, Users, Zap } from 'lucide-react';
+import { usePortfolio } from '../context/PortfolioContext';
 
 const About = () => {
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
+
+  const { portfolioData } = usePortfolio();
+  const personal = portfolioData?.personal || {};
 
   const cards = [
     {
@@ -46,8 +50,7 @@ const About = () => {
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto mb-8"></div>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-            I'm a passionate developer specializing in full-stack development and DevOps practices.
-            I love building efficient, scalable applications and automating deployment processes.
+            {personal.about || "I'm a passionate developer specializing in full-stack development and DevOps practices. I love building efficient, scalable applications and automating deployment processes."}
           </p>
         </motion.div>
 

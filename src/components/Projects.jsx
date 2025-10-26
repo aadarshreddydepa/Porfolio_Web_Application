@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { ExternalLink, Github } from 'lucide-react';
+import { usePortfolio } from '../context/PortfolioContext';
 
 const Projects = () => {
   const [ref, inView] = useInView({
@@ -8,32 +9,12 @@ const Projects = () => {
     threshold: 0.1,
   });
 
-  const projects = [
-    {
-      title: 'E-Commerce Platform',
-      description: 'Full-stack e-commerce application with payment integration',
-      tech: ['React', 'Node.js', 'MongoDB', 'Stripe'],
-      github: '#',
-      live: '#',
-      image: 'https://via.placeholder.com/400x250/6366f1/ffffff?text=Project+1',
-    },
-    {
-      title: 'Task Management App',
-      description: 'Collaborative task manager with real-time updates',
-      tech: ['React', 'Firebase', 'Tailwind', 'Redux'],
-      github: '#',
-      live: '#',
-      image: 'https://via.placeholder.com/400x250/8b5cf6/ffffff?text=Project+2',
-    },
-    {
-      title: 'Weather Dashboard',
-      description: 'Real-time weather application with location services',
-      tech: ['React', 'Weather API', 'Charts.js'],
-      github: '#',
-      live: '#',
-      image: 'https://via.placeholder.com/400x250/6366f1/ffffff?text=Project+3',
-    },
-  ];
+  const { portfolioData } = usePortfolio();
+  const projects = portfolioData?.projects || [];
+
+  if (!projects || projects.length === 0) {
+    return null;
+  }
 
   return (
     <section id="projects" className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-900/50">
@@ -54,7 +35,7 @@ const Projects = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project, index) => (
             <motion.div
-              key={project.title}
+              key={index}
               initial={{ opacity: 0, scale: 0.8 }}
               animate={inView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.6, delay: index * 0.2 }}
@@ -63,7 +44,7 @@ const Projects = () => {
             >
               <div className="relative overflow-hidden">
                 <img
-                  src={project.image}
+                  src={project.image || `https://via.placeholder.com/400x250/6366f1/ffffff?text=${encodeURIComponent(project.title)}`}
                   alt={project.title}
                   className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
                 />
@@ -73,9 +54,9 @@ const Projects = () => {
                 <h3 className="text-xl font-bold mb-2">{project.title}</h3>
                 <p className="text-gray-400 mb-4">{project.description}</p>
                 <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tech.map((tech) => (
+                  {project.tech && project.tech.map((tech, idx) => (
                     <span
-                      key={tech}
+                      key={idx}
                       className="px-3 py-1 bg-primary/20 text-primary text-sm rounded-full"
                     >
                       {tech}
@@ -83,20 +64,28 @@ const Projects = () => {
                   ))}
                 </div>
                 <div className="flex space-x-4">
-                  <a
-                    href={project.github}
-                    className="flex items-center space-x-2 text-gray-300 hover:text-primary transition-colors"
-                  >
-                    <Github size={20} />
-                    <span>Code</span>
-                  </a>
-                  <a
-                    href={project.live}
-                    className="flex items-center space-x-2 text-gray-300 hover:text-primary transition-colors"
-                  >
-                    <ExternalLink size={20} />
-                    <span>Live</span>
-                  </a>
+                  {project.github && (
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center space-x-2 text-gray-300 hover:text-primary transition-colors"
+                    >
+                      <Github size={20} />
+                      <span>Code</span>
+                    </a>
+                  )}
+                  {project.live && (
+                    <a
+                      href={project.live}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center space-x-2 text-gray-300 hover:text-primary transition-colors"
+                    >
+                      <ExternalLink size={20} />
+                      <span>Live</span>
+                    </a>
+                  )}
                 </div>
               </div>
             </motion.div>

@@ -79,6 +79,7 @@ const Hero = () => {
           variants={itemVariants}
           className="text-5xl md:text-7xl font-bold mb-6"
         >
+          
           <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
             {personal.fullName || 'Your Name'}
           </span>

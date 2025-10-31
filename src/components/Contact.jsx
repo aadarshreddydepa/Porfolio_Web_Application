@@ -56,7 +56,7 @@ const Contact = () => {
                     <Phone className="text-primary" size={24} />
                   </div>
                   <div>
-                    <h4 className="font-semibold mb-1">Phone</h4>
+                    <h4 className="font-semibold mb-1">Mobile</h4>
                     <p className="text-gray-400">{personal.phone}</p>
                   </div>
                 </div>

@@ -72,7 +72,7 @@ const Hero = () => {
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10"
       >
         <motion.div variants={itemVariants} className="mb-6">
-          <span className="text-primary text-lg font-semibold">Hey!👋🏻 This is 👀</span>
+          <span className="text-primary text-lg font-semibold">Hey!👋🏻 This is </span>
         </motion.div>
 
         <motion.h1
